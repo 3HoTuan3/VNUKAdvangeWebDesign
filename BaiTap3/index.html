@@ -1,0 +1,72 @@
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>BangDiem</title>
+<link rel="stylesheet" href="./bootstrap-4.0.0-alpha.6-dist/bootstrap-4.0.0-alpha.6-dist/css/bootstrap.min.css">
+<script src="./bootstrap-4.0.0-alpha.6-dist/bootstrap-4.0.0-alpha.6-dist/js/bootstrap.min.js"></script>
+<script src="./bootstrap-4.0.0-alpha.6-dist/bootstrap-4.0.0-alpha.6-dist/js/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="ex1.js"></script>
+
+<body style="margin: 200 300 200 300">
+    <div style="text-align: center; background:grey; border: 1px solid black; padding: 20px; border-radius: 10px;">
+        <h1>BANG DIEM CUA EM</h1>
+        <div id="input">
+            <span>Semester1:</span>
+            <input type="text" name="inputa" id="text_1" size="40px">
+        </div>
+        <div id="input">
+            <span>Semester2:</span>
+            <input type="text" name="inputa" id="text_2" size="40px">
+        </div>
+        <div id="input">
+            <div id="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <span>Year:</span>
+                    </div>
+                    <div class="col-sm-2">
+                        <select style="width: 50px; color: red" id="select">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-8">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="input">
+            <div id="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <span>Summarise:</span>
+                    </div>
+                    <div class="col-sm-10">
+                        <input type="text" name="result" id="result" size="40" disabled="true">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="input">
+            <div id="form-horizontal">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <p id="display" style="font-size: 24px; font-weight: bold;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="form-horizontal">
+            <div class="row">
+                <div class="col-sm-4">
+
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" name="ok" id="ok" value="OK" onclick="myFunction1()">
+                </div>
+                <div class="col-sm-2">
+                    <input type="button" name="cancel" id="cancel" value="Cancel" onclick="myFunction2()">
+                </div>
+            </div>
+        </div>
+    </div>
