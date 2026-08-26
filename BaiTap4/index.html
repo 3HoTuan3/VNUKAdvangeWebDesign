@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/bootstrap.min.css">
+        <script src="./js/bootstrap.min.js"></script>
+        <script src="./js/jquery.min.js"></script>
+        <script src="script.js"></script>
+    </head>
+
+    <body>
+        Customer Name:
+        <input type="text" id="customerName">
+        <br>
+        ID:
+        <input type="text" id="customerID">
+        <br>
+        Product Name:
+        <input type="text" id="productName">
+        <br>
+        Quantity:
+        <input type="text" id="quantity">
+        <br>
+        Price:
+        <input type="text" id="price">
+        <br>
+        <input type="button" value="Save" onClick="save()">
+        <input type="button" value="Show" onClick="show()">
+        <input type="button" value="Reset" onClick="reset()">
+        <table class="thead-dark">
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>ID</th>
+                    <th>Product Name</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+    </body>
+</html>
