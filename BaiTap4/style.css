@@ -1,0 +1,56 @@
+body {
+    background-color: #5c9196;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: bold;
+    color: black;
+    padding: 30px;
+}
+
+input[type="text"] {
+    width: 300px;
+    box-sizing: border-box;
+    padding: 4px 8px;
+    margin-top: 5px;
+    margin-bottom: 12px;
+    border: 1px solid #777;
+    border-radius: 3px;
+    font-weight: normal;
+    font-family: sans-serif;
+}
+
+input[type="button"] {
+    color: red;
+    background-color: #f2f2f2;
+    border: 1px solid #ccc;
+    padding: 4px 12px;
+    margin-right: 10px;
+    margin-top: 10px;
+    font-size: 16px;
+    font-family: sans-serif;
+    cursor: pointer;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 30px;
+    background-color: #00FFFF;
+}
+
+th,
+td {
+    border: 1px solid white;
+    padding: 5px 15px;
+    text-align: center;
+    color: black;
+}
+
+.thead-dark th {
+    background-color: #00FFFF ;
+    color: black;
+    border-color: white ;
+}
+
+.form-label {
+    display: inline-block;
+    width: 130px;
+}
