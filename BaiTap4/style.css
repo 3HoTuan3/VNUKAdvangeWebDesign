@@ -1,19 +1,24 @@
-body {
+html {
+    min-height: 100%;
     background-color: #5c9196;
+}
+
+body {
     font-family: "Times New Roman", Times, serif;
     font-weight: bold;
     color: black;
+    min-height: 100vh;
     padding: 30px;
 }
 
 input[type="text"] {
     width: 300px;
-    box-sizing: border-box;
     padding: 4px 8px;
     margin-top: 5px;
     margin-bottom: 12px;
     border: 1px solid #777;
     border-radius: 3px;
+    box-sizing: border-box;
     font-weight: normal;
     font-family: sans-serif;
 }
@@ -45,9 +50,9 @@ td {
 }
 
 .thead-dark th {
-    background-color: #00FFFF ;
+    background-color: #00FFFF;
     color: black;
-    border-color: white ;
+    border-color: white;
 }
 
 .form-label {
