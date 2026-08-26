@@ -7,7 +7,7 @@ function save() {
         quantity: document.getElementById("quantity").value,
         price: document.getElementById("price").value
     }
-    console.log(a);
+    console.log(a);     
     arr.push(a);
 }
 
