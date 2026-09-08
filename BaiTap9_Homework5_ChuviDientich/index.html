@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tính chu vi và diện tích hình chữ nhật</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="calculator">
+        <section class="calculator-card">
+            <p class="eyebrow">Bài tập JavaScript callback</p>
+            <h1>Hình chữ nhật</h1>
+            <p class="description">Nhập hai số a và b để tính chu vi và diện tích.</p>
+
+            <form id="rectangleForm">
+                <div class="form-grid">
+                    <label for="length">
+                        Số a
+                        <input id="length" type="number" min="0.01" step="any" placeholder="Ví dụ: 5" required>
+                    </label>
+                    <label for="width">
+                        Số b
+                        <input id="width" type="number" min="0.01" step="any" placeholder="Ví dụ: 3" required>
+                    </label>
+                </div>
+                <button type="submit">Tính kết quả</button>
+                <p id="errorMessage" class="error" aria-live="polite"></p>
+            </form>
+
+            <div class="results" aria-live="polite">
+                <div class="result-item">
+                    <span>Chu vi</span>
+                    <strong id="perimeterResult">-</strong>
+                </div>
+                <div class="result-item">
+                    <span>Diện tích</span>
+                    <strong id="areaResult">-</strong>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="callback_chuvidientich_Rectangle.js"></script>
+</body>
+
+</html>
