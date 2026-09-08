@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo đa hình và trừu tượng</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="page-shell">
+        <section class="intro">
+            <p class="eyebrow">JavaScript OOP</p>
+            <h1>Đa hình &amp; trừu tượng</h1>
+            <p class="lead">
+                Một phương thức chung, nhiều cách thể hiện khác nhau.
+                Hãy chọn một con vật để xem kết quả.
+            </p>
+            <div class="concepts">
+                <article class="concept-card">
+                    <span class="concept-number">01</span>
+                    <h2>Tính trừu tượng</h2>
+                    <p><code>Animal</code> chỉ mô tả khuôn mẫu chung và không thể tạo đối tượng trực tiếp.</p>
+                </article>
+                <article class="concept-card highlighted">
+                    <span class="concept-number">02</span>
+                    <h2>Tính đa hình</h2>
+                    <p>Cùng gọi <code>makeSound()</code>, mỗi lớp con tạo ra một âm thanh riêng.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="demo-panel">
+            <div class="panel-heading">
+                <div>
+                    <p class="eyebrow">Live demonstration</p>
+                    <h2>Chọn đối tượng</h2>
+                </div>
+                <span class="status-dot">Đang hoạt động</span>
+            </div>
+
+            <div id="animalList" class="animal-list"></div>
+            <div id="result" class="result" aria-live="polite">
+                <span class="result-label">Kết quả phương thức</span>
+                <strong>Chọn một con vật để bắt đầu</strong>
+            </div>
+
+            <button id="soundButton" class="sound-button" type="button" disabled>
+                <span aria-hidden="true">&#9654;</span>
+                Gọi makeSound()
+            </button>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
