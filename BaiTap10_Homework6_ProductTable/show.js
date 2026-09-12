@@ -14,6 +14,7 @@ function handleProducts(error, products) {
         productTableBody.innerHTML = products.map(product => `<tr>
                             <td>${product.id}</td>
                             <td>${product.name}</td>
+                            <td><img src="${product.image1}" alt="${product.name}" width="100" "height="100"></td>
                             <td>${product.price}</td>
                         </tr>`).join('');
     }

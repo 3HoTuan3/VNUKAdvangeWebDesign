@@ -29,7 +29,6 @@ function handleAddData(error, result) {
         console.error('Error adding data:', error);
     } else {
         console.log('Data added successfully:', result);
-        // Cập nhật giao diện hoặc thực hiện các hành động khác sau khi thêm dữ liệu thành công
     }
 }
 
