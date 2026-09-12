@@ -40,45 +40,46 @@ const animals = [
     new Bird('Rio')
 ];
 
-const animalList = document.querySelector('#animalList');
-const result = document.querySelector('#result');
-const soundButton = document.querySelector('#soundButton');
-let selectedAnimal = null;
+const readline = require('node:readline/promises');
+const { stdin, stdout } = require('node:process');
 
-animals.forEach((animal, index) => {
-    const button = document.createElement('button');
-    button.className = 'animal-card';
-    button.type = 'button';
-    button.dataset.index = index;
-    button.innerHTML = `
-        <span class="animal-icon">${['🐶', '🐱', '🐦'][index]}</span>
-        <span>
-            <strong>${animal.name}</strong>
-            <small>${animal.constructor.name}</small>
-        </span>
-    `;
+const terminal = readline.createInterface({ input: stdin, output: stdout });
 
-    button.addEventListener('click', () => {
-        document.querySelectorAll('.animal-card').forEach((card) => card.classList.remove('selected'));
-        button.classList.add('selected');
-        selectedAnimal = animal;
-        soundButton.disabled = false;
-        result.innerHTML = `
-            <span class="result-label">Đối tượng đã chọn</span>
-            <strong>${animal.getDescription()}</strong>
-        `;
+function printAnimalList() {
+    console.log('\n=== Demo đa hình và trừu tượng ===');
+    console.log('Chọn một con vật để gọi makeSound():');
+
+    animals.forEach((animal, index) => {
+        console.log(`${index + 1}. ${animal.name} (${animal.constructor.name})`);
     });
 
-    animalList.appendChild(button);
-});
+    console.log('0. Thoát');
+}
 
-soundButton.addEventListener('click', () => {
-    if (!selectedAnimal) {
-        return;
+async function runDemo() {
+    console.log('Animal là lớp trừu tượng: không thể tạo đối tượng trực tiếp.');
+
+    while (true) {
+        printAnimalList();
+        const choice = await terminal.question('Nhập lựa chọn: ');
+
+        if (choice.trim() === '0') {
+            console.log('Đã thoát chương trình.');
+            break;
+        }
+
+        const animal = animals[Number(choice) - 1];
+
+        if (!animal) {
+            console.log('Lựa chọn không hợp lệ. Vui lòng nhập 0, 1, 2 hoặc 3.');
+            continue;
+        }
+
+        console.log(`\nĐối tượng đã chọn: ${animal.getDescription()}`);
+        console.log(`Kết quả của ${animal.constructor.name}.makeSound(): ${animal.makeSound()}`);
     }
 
-    result.innerHTML = `
-        <span class="result-label">Kết quả của ${selectedAnimal.constructor.name}.makeSound()</span>
-        <strong>${selectedAnimal.makeSound()}</strong>
-    `;
-});
+    terminal.close();
+}
+
+runDemo();
