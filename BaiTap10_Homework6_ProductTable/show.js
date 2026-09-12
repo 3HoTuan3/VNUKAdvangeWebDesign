@@ -1,5 +1,10 @@
 function getProducts(callback) {
-    fetch('https://6a9b87470ad174e139e8b375.mockapi.io/products')
+    fetch('https://6a9b87470ad174e139e8b375.mockapi.io/products', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    })
         .then(response => response.json())
         .then(data => callback(null, data))
         .catch(error => callback(error, null));
