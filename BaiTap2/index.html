@@ -1,0 +1,28 @@
+<!doctype html>
+<title>Test</title>
+
+<body>
+
+<script>
+    var c = 0;
+    var a = '<div style="width: 20px; height: 20px; background: yellow; display: inline-block;"></div>';
+    var b = '<div style="width: 20px; height: 20px; background: black; display: inline-block;"></div>';
+
+    for (let j = 0; j < 6; j++) {
+        for (let i = 0; i < 10; i++) {
+            if (c == 0) {
+                document.write(a);
+            } else {
+                document.write(b);
+            }
+            document.write(" ");
+        }
+        document.write("<br>");
+        if (c == 0) {
+            c = 1;
+        } else {
+            c = 0;
+        }
+    }
+</script>
+</body>
