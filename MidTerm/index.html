@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Xem Phim Online</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <span class="logo-icon" aria-hidden="true">M</span>
+            <span class="logo-name">Movies Discover</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Trang Chủ</a></li>
+                <li><a href="#">Thể Loại</a></li>
+                <li><a href="#">Phim Mới</a></li>
+                <li><a href="#">Phim Hot</a></li>
+                <li><a href="#">Tài Khoản</a></li>
+            </ul>
+        </nav>
+        <div class="search-bar">
+            <span class="search-icon"></span>
+            <input id="movie-search" type="search" placeholder="Tìm kiếm phim" aria-label="Tìm kiếm phim">
+        </div>
+    </header>
+
+    <main>
+        <div class="toolbar">
+            <h1>Danh sách phim</h1>
+            <div class="toolbar-actions">
+                <button type="button" data-action="add">Thêm phim</button>
+                <button type="button" data-action="update">Sửa phim</button>
+                <button type="button" data-action="delete" class="danger-button">Xóa phim</button>
+            </div>
+        </div>
+        <div id="movie-grid" class="grid-container"></div>
+    </main>
+
+    <div id="movie-modal" class="modal" hidden>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-header">
+                <h2 id="modal-title">Thêm phim</h2>
+                <button id="close-modal" type="button" class="close-button" aria-label="Đóng">&times;</button>
+            </div>
+            <form id="movie-form">
+                <input id="movie-id" name="id" type="hidden">
+                <label>Tên phim
+                    <input id="movie-name" name="movies_name" type="text" required>
+                </label>
+                <label>Link hình ảnh
+                    <input id="movie-image" name="image" type="url" required>
+                </label>
+                <label>Mô tả
+                    <textarea id="movie-description" name="description" rows="3" required></textarea>
+                </label>
+                <div class="form-row">
+                    <label>Thời lượng (phút)
+                        <input id="movie-duration" name="duration" type="number" min="1" required>
+                    </label>
+                    <label>Năm phát hành
+                        <input id="movie-release-year" name="releaseYear" type="number" min="1900" required>
+                    </label>
+                </div>
+                <label>Giá vé (VNĐ)
+                    <input id="movie-price" name="price" type="number" min="0" required>
+                </label>
+                <div class="modal-actions">
+                    <button type="button" data-action="cancel" class="secondary-button">Hủy</button>
+                    <button type="submit">Lưu phim</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="detail-modal" class="modal" hidden>
+        <div class="modal-content detail-content" role="dialog" aria-modal="true" aria-labelledby="detail-title">
+            <div class="modal-header">
+                <h2 id="detail-title">Thông tin phim</h2>
+                <button id="close-detail-modal" type="button" class="close-button" aria-label="Đóng">&times;</button>
+            </div>
+            <div id="movie-details" class="movie-details"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
