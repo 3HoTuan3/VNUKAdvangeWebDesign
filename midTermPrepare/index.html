@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Midterm Preparation</title>
+    <link rel="stylesheet" href="style.css">
+    <title>List Product</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>List Product</h1>
+            <label class="search-box" for="product-search">
+                <span class="sr-only">Search products</span>
+                <input id="product-search" type="search" placeholder="Search product..." autocomplete="off">
+            </label>
+            <div class="toolbar" aria-label="Product actions">
+                <button class="add-btn" type="button" data-action="add">Add</button>
+                <button class="update-btn" type="button" data-action="update">Update</button>
+                <button class="delete-btn" type="button" data-action="delete">Delete</button>
+            </div>
+        </div>
+        <div id="product-list" class="product-grid">
+            <!-- Product items will be dynamically added here -->
+        </div>
+    </div>
+
+    <div id="product-modal" class="modal" hidden>
+        <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="modal-header">
+                <h2 id="modal-title">Add Product</h2>
+                <button id="close-modal" class="close-btn" type="button" aria-label="Close">&times;</button>
+            </div>
+            <form id="product-form">
+                <input id="product-id" name="id" type="hidden">
+                <label>Name<input id="product-name" name="name" type="text" required></label>
+                <label>Image URL<input id="product-image" name="image" type="url" required></label>
+                <label>Description<textarea id="product-description" name="description" rows="3"></textarea></label>
+                <div class="form-row">
+                    <label>Quantity<input id="product-quantity" name="quantity" type="number" min="0" required></label>
+                    <label>Price<input id="product-price" name="price" type="number" min="0" step="0.01"
+                            required></label>
+                </div>
+                <label>Location<input id="product-location" name="productLocation" type="text" required></label>
+                <div class="form-row">
+                    <label>Stars<input id="product-stars" name="starProduct" type="number" min="0" max="5" step="1"
+                            required></label>
+                    <label>Sale off (%)<input id="product-sale-off" name="saleOff" type="number" min="0" max="100"
+                            step="1" required></label>
+                </div>
+                <div class="form-actions">
+                    <button class="cancel-btn" type="button" data-action="cancel">Cancel</button>
+                    <button class="save-btn" type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
