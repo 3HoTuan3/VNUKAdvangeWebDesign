@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <% if (product) { %>
+        <main class="product-detail">
+            <h1>
+                <%= product.name %>
+            </h1>
+            <img src="<%= product.image %>" alt="<%= product.name %>" width="200">
+            <p class="product-price">Giá: $<%= product.price %>
+            </p>
+            <a class="back-link" href="/products">Quay lại danh sách</a>
+        </main>
+        <% } else { %>
+            <main class="product-detail">
+                <h1>Không tìm thấy sản phẩm</h1>
+                <a class="back-link" href="/products">Quay lại danh sách</a>
+            </main>
+            <% } %>
+</body>
+
+</html>

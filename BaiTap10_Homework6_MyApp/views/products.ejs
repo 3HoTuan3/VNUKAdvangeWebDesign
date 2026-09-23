@@ -1,14 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Danh sách sản phẩm</title>
-    </head>
-    <body>
-        <h1>Danh sách sản phẩm</h1>
-        <ul>
-            <% products.forEach(p => { %>
-                <li><a href="/products/<%= p.id %>"><%= p.name %> - <%= p.price %></a></li>
+
+<head>
+    <title>Danh sách sản phẩm</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <h1>Danh sách sản phẩm</h1>
+    <ul class="product-list">
+        <% products.forEach(p=> { %>
+            <li class="product-item">
+                <a href="/products/<%= p.id %>">
+                    <img class="product-image" src="<%= p.image %>" alt="<%= p.name %>">
+                    <span>
+                        <%= p.name %> - $<%= p.price %>
+                    </span>
+                </a>
+            </li>
             <% }); %>
-        </ul>
-    </body>
+    </ul>
+
+    <h2>Thêm sản phẩm mới</h2>
+    <form action="/products" method="POST">
+        <input type="text" name="name" placeholder="Tên sản phẩm" required>
+        <input type="number" name="price" placeholder="Giá sản phẩm" required>
+        <input type="url" name="image" placeholder="URL hình ảnh">
+        <button type="submit">Thêm sản phẩm</button>
+    </form>
+</body>
+
 </html>

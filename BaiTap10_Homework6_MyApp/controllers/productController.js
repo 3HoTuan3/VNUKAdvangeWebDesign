@@ -1,18 +1,26 @@
-const product = [
-    { id: 1, name: "Product 1", price: 10.99 },
-    { id: 2, name: "Product 2", price: 19.99 },
-    { id: 3, name: "Product 3", price: 5.99 },
-];
+const Product = require('../model/productModel');
 
 exports.getProducts = (req, res) => {
-    res.render('products', { products: product });
+    const products = Product.getAll();
+    res.render('products', { products });
 };
 
-exports.getProductsById = (req, res) => {
-    const foundProduct = product.find(p => p.id == req.params.id);
-    if (foundProduct) {
-        res.send(`<h1>${foundProduct.name}</h1><p>Price: $${foundProduct.price}</p>`);
+exports.getProductById = (req, res) => {
+    const product = Product.getById(req.params.id);
+    if (product) {
+        res.render('product-detail', { product });
     } else {
-        res.send('<h1>Product not found</h1>');
+        res.status(404).render('product-detail', { product: null });
     }
+};
+
+exports.addProduct = (req, res) => {
+    const newProduct = {
+        id: Date.now(),
+        name: req.body.name,
+        price: req.body.price,
+        image: req.body.image || 'https://via.placeholder.com/150'
+    };
+    Product.add(newProduct);
+    res.redirect('/products');
 };
