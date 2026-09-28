@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // Sử dụng EJS làm view engine  															
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'view'));
+app.set('views', './views');
 
 // Middleware  															
 app.use(bodyParser.urlencoded({ extended: true }));
