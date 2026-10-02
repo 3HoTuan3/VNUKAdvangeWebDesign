@@ -1,0 +1,12 @@
+<div class="beta-products-list">
+    <h4>Top Products</h4>
+    <div class="beta-products-details">
+        <p class="pull-left"><%= products.length %> styles found</p>
+        <div class="clearfix"></div>
+    </div>
+    <div class="row">
+        <% products.forEach(product => { %>
+            <%- include('product-card', { product }) %>
+        <% }) %>
+    </div>
+</div> <!-- .beta-products-list -->
