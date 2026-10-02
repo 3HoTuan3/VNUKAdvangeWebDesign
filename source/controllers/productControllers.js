@@ -1,4 +1,7 @@
-const Product = require('../models/productModels');
+//MySQL
+// const Product = require('../models/productModelsMySQL');
+//MongoDB
+const Product = require('../models/productModelsMongo'); 
 
 exports.getHomePage = async (req, res) => {
     try {
