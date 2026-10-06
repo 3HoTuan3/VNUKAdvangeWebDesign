@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Edit Product</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Edit Product</h2>
+        <form action="/edit/<%= product._id %>" method="POST" enctype="multipart/form-data">
+            <input type="text" name="name" value="<%= product.name %>" required>
+            <input type="number" name="price" value="<%= product.price %>" required>
+            <input type="number" name="quantity" value="<%= product.quantity %>" required>
+            <input type="file" name="image">
+            <img src="<%= product.image %>" alt="<%= product.name %>" class="img-fluid mb-2" style="max-width: 200px;">
+            <button type="submit" class="btn btn-success">Update Product</button>
+        </form>
+        <a href="/" class="btn btn-secondary mt-2">Back to Product List</a>
+    </div>
+</body>
+</html>

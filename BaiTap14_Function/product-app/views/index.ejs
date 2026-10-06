@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Product List</title>
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Product List</h2>
+        <form action="/search" method="GET" class="mb-4">
+            <input type="text" name="q" placeholder="Search by name" required>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+        <form action="/add" method="GET">
+            <button type="submit" class="btn btn-success mb-4">Add New Product</button>
+        </form>
+        <div class="row">
+            <% products.forEach(product => { %>
+                <div class="card col-md-3 m-2">
+                    <img src="<%= product.image %>" class="card-img-top" alt="<%= product.name %>">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= product.name %></h5>
+                        <p class="card-text">Price: <%= product.price %> $</p>
+                        <p class="card-text">Quantity: <%= product.quantity %></p>
+                        <a href="/products/<%= product._id %>" class="btn btn-info">View Details</a>
+                        <a href="/edit/<%= product._id %>" class="btn btn-warning">Edit</a>
+                        <form action="/delete/<%= product._id %>" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</body>
+</html>
