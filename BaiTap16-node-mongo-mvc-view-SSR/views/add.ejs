@@ -1,0 +1,22 @@
+<%- include('layout', { title: 'Thêm sản phẩm mới', body: `
+<form action="/add" method="POST">
+  <div class="mb-3">
+    <label>Tên sản phẩm</label>
+    <input type="text" name="name" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Giá</label>
+    <input type="number" name="price" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Danh mục</label>
+    <input type="text" name="category" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label>Tồn kho</label>
+    <input type="number" name="stock" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-success">Thêm</button>
+  <a href="/" class="btn btn-secondary">Hủy</a>
+</form>
+`}) %>
