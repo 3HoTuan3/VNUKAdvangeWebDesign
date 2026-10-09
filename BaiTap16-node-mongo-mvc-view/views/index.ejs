@@ -1,0 +1,41 @@
+<%- include('partial/header') %>
+
+    <div class="mb-3 text-end">
+        <a href="/add" class="btn btn-primary">+ Thêm sản phẩm</a>
+    </div>
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Tên</th>
+                <th>Giá</th>
+                <th>Danh mục</th>
+                <th>Tồn kho</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% products.forEach(p=> { %>
+                <tr>
+                    <td>
+                        <%= p.name %>
+                    </td>
+                    <td>
+                        <%= p.price %>
+                    </td>
+                    <td>
+                        <%= p.category %>
+                    </td>
+                    <td>
+                        <%= p.stock %>
+                    </td>
+                    <td>
+                        <a href="/edit/<%= p._id %>" class="btn btn-sm btn-warning">Sửa</a>
+                        <a href="/delete/<%= p._id %>" class="btn btn-sm btn-danger">Xóa</a>
+                    </td>
+                </tr>
+                <% }) %>
+        </tbody>
+    </table>
+
+    <%- include('partial/footer') %>

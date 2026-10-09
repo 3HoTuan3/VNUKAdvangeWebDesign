@@ -1,0 +1,22 @@
+<%- include('layout', { title: 'Cập nhật sản phẩm', body: `
+<form action="/edit/${product._id}" method="POST">
+  <div class="mb-3">
+    <label>Tên sản phẩm</label>
+    <input type="text" name="name" value="${product.name}" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Giá</label>
+    <input type="number" name="price" value="${product.price}" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Danh mục</label>
+    <input type="text" name="category" value="${product.category}" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label>Tồn kho</label>
+    <input type="number" name="stock" value="${product.stock}" class="form-control" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Cập nhật</button>
+  <a href="/" class="btn btn-secondary">Hủy</a>
+</form>
+`}) %>
