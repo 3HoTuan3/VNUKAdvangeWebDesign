@@ -3,60 +3,261 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Danh sách sản phẩm từ API</title>
+    <title>Giao diện CSR - Fetch API</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         body {
             background-color: #f8f9fa;
-            padding: 30px;
+            padding: 25px 0;
         }
-
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
             gap: 20px;
         }
     </style>
 </head>
 
 <body class="container">
-    <h1 class="text-center mb-4">Danh sách sản phẩm từ API</h1>
+    <h1 class="text-center mb-4">Giao diện CSR - Fetch API</h1>
+    <!-- THANH TÁC VỤ & BỘ LỌC -->
+    <div class="row g-3 mb-4 p-3 border rounded bg-white shadow-sm align-items-center">
+        <div class="col-md-3">
+            <select id="filterCategory" class="form-select">
+                <option value="">-- Tất cả loại --</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="filterSort" class="form-select">
+                <option value="">-- Không sắp xếp --</option>
+                <option value="asc">Giá tăng dần</option>
+                <option value="desc">Giá giảm dần</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <input type="number" id="filterMaxPrice" class="form-control" placeholder="Giá tối đa">
+        </div>
+        <div class="col-md-2 d-flex gap-2">
+            <button class="btn btn-primary w-100" onclick="fetchProducts(1)">Lọc</button>
+            <button class="btn btn-secondary" onclick="resetFilters()">Đặt lại</button>
+        </div>
+        <div class="col-md-2 text-end">
+            <button class="btn btn-success w-100" onclick="openCreateModal()">➕ Thêm mới</button>
+        </div>
+    </div>
+
+    <!-- DANH SÁCH SẢN PHẨM -->
     <div class="product-grid" id="product-container"></div>
+
+    <!-- PHÂN TRANG -->
+    <div class="d-flex justify-content-center mt-4" id="pagination-container"></div>
+
+    <!-- MODAL THÊM / SỬA SẢN PHẨM -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Thêm sản phẩm mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="prodId">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Tên sản phẩm:</label>
+                        <input type="text" id="prodName" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Giá (VNĐ):</label>
+                        <input type="number" id="prodPrice" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Danh mục:</label>
+                        <select id="prodCategory" class="form-select" required>
+                            <option value="">-- Chọn danh mục --</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Số lượng tồn kho:</label>
+                        <input type="number" id="prodStock" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="saveProduct()">Lưu</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        async function fetchProducts() {
+        let currentPage = 1;
+        let cachedCategories = [];
+        let bsModal;
+        document.addEventListener('DOMContentLoaded', () => {
+            bsModal = new bootstrap.Modal(document.getElementById('productModal'));
+            loadCategories();
+            fetchProducts(1);
+        });
+
+        // 1. Tải danh mục đổ vào Select lọc và Select form modal
+        async function loadCategories() {
             try {
-                // Đổi thành /api/products khớp với app.js
-                const response = await fetch('/api/products');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const products = await response.json();
-
-                const container = document.getElementById('product-container');
-                container.innerHTML = '';
-
-                products.forEach(product => {
-                    const card = document.createElement('div');
-                    card.className = 'card shadow-sm p-3';
-
-                    // Lấy tên danh mục từ trường categoryId đã populate
-                    const categoryName = (product.categoryId && product.categoryId.name)
-                        ? product.categoryId.name
-                        : 'Chưa phân loại';
-
-                    card.innerHTML = `
-                        <h5 class="card-title text-primary">${product.name}</h5>
-                        <p class="mb-1 text-danger fw-bold">Giá: ${Number(product.price).toLocaleString()} đ</p>
-                        <p class="mb-1 text-muted">Loại: <strong>${categoryName}</strong></p>
-                        <p class="mb-0 text-success">Tồn kho: ${product.stock}</p>
-                    `;
-                    container.appendChild(card);
+                const res = await fetch('/api/products/categories');
+                cachedCategories = await res.json();
+                const filterSelect = document.getElementById('filterCategory');
+                const modalSelect = document.getElementById('prodCategory');
+                filterSelect.innerHTML = '<option value="">-- Tất cả loại --</option>';
+                modalSelect.innerHTML = '<option value="">-- Chọn danh mục --</option>';
+                cachedCategories.forEach(c => {
+                    filterSelect.innerHTML += `<option value="${c._id}">${c.name}</option>`;
+                    modalSelect.innerHTML += `<option value="${c._id}">${c.name}</option>`;
                 });
-            } catch (error) {
-                console.error('Lỗi khi lấy dữ liệu sản phẩm:', error);
+            } catch (err) {
+                console.error('Lỗi tải categories:', err);
             }
         }
-        fetchProducts();
+
+        // 2. Fetch danh sách sản phẩm (Mặc định limit=10)
+        async function fetchProducts(page = 1) {
+            currentPage = page;
+            const category = document.getElementById('filterCategory').value;
+            const sort = document.getElementById('filterSort').value;
+            const maxPrice = document.getElementById('filterMaxPrice').value;
+            let url = `/api/products?page=${page}&limit=10`;
+            if (category) url += `&category=${category}`;
+            if (sort) url += `&sort=${sort}`;
+            if (maxPrice) url += `&maxPrice=${maxPrice}`;
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+                renderProducts(data.products);
+                renderPagination(data.totalPages, data.currentPage);
+            } catch (err) {
+                console.error('Lỗi tải sản phẩm:', err);
+            }
+        }
+
+        // 3. Render Card sản phẩm có cả nút Sửa và Xóa
+        function renderProducts(products) {
+            const container = document.getElementById('product-container');
+            container.innerHTML = '';
+            if (!products || products.length === 0) {
+                container.innerHTML = `<div class="col-12 text-center text-muted py-5">Không tìm thấy sản phẩm nào.</div>`;
+                return;
+            }
+            products.forEach(p => {
+                const categoryName = p.categoryId ? p.categoryId.name : 'Chưa phân loại';
+                const card = document.createElement('div');
+                card.className = 'card shadow-sm p-3 bg-white d-flex flex-column justify-content-between';
+                card.innerHTML = `
+          <div>
+            <h5 class="card-title text-primary">${p.name}</h5>
+            <p class="mb-1 text-danger fw-bold">Giá: ${Number(p.price).toLocaleString()} đ</p>
+            <p class="mb-1 text-muted">Loại: <strong>${categoryName}</strong></p>
+            <p class="mb-3 text-success">Tồn kho: ${p.stock}</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-sm btn-outline-warning w-50" onclick="openEditModal('${p._id}')">Sửa</button>
+            <button class="btn btn-sm btn-outline-danger w-50" onclick="deleteProduct('${p._id}')">Xóa</button>
+          </div>
+        `;
+                container.appendChild(card);
+            });
+        }
+
+        // 4. Render thanh phân trang
+        function renderPagination(totalPages, page) {
+            const pag = document.getElementById('pagination-container');
+            pag.innerHTML = '';
+            if (!totalPages || totalPages <= 1) return;
+
+            for (let i = 1; i <= totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `btn btn-sm mx-1 ${i === page ? 'btn-primary' : 'btn-outline-primary'}`;
+                btn.innerText = i;
+                btn.onclick = () => fetchProducts(i);
+                pag.appendChild(btn);
+            }
+        }
+
+        // 5. Mở Modal Thêm mới
+        function openCreateModal() {
+            document.getElementById('modalTitle').innerText = 'Thêm sản phẩm mới';
+            document.getElementById('prodId').value = '';
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodCategory').value = '';
+            document.getElementById('prodStock').value = '';
+            bsModal.show();
+        }
+
+        // 6. Mở Modal Cập nhật (Fetch thông tin chi tiết)
+        async function openEditModal(id) {
+            try {
+                const res = await fetch(`/api/products/${id}`);
+                const p = await res.json();
+                document.getElementById('modalTitle').innerText = 'Cập nhật sản phẩm';
+                document.getElementById('prodId').value = p._id;
+                document.getElementById('prodName').value = p.name;
+                document.getElementById('prodPrice').value = p.price;
+                document.getElementById('prodCategory').value = p.categoryId ? p.categoryId._id : '';
+                document.getElementById('prodStock').value = p.stock;
+                bsModal.show();
+            } catch (err) {
+                console.error('Lỗi nạp sản phẩm:', err);
+            }
+        }
+
+        // 7. Xử lý Thêm / Sửa qua Fetch API
+        async function saveProduct() {
+            const id = document.getElementById('prodId').value;
+            const body = {
+                name: document.getElementById('prodName').value,
+                price: Number(document.getElementById('prodPrice').value),
+                categoryId: document.getElementById('prodCategory').value,
+                stock: Number(document.getElementById('prodStock').value)
+            };
+            if (!body.name || !body.price || !body.categoryId) {
+                alert('Vui lòng điền đầy đủ thông tin!');
+                return;
+            }
+            const method = id ? 'PUT' : 'POST';
+            const url = id ? `/api/products/${id}` : '/api/products';
+            try {
+                const res = await fetch(url, {
+                    method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
+                if (res.ok) {
+                    bsModal.hide();
+                    fetchProducts(currentPage);
+                } else {
+                    alert('Lỗi khi lưu sản phẩm!');
+                }
+            } catch (err) {
+                console.error('Lỗi lưu sản phẩm:', err);
+            }
+        }
+
+        // 8. Xóa sản phẩm qua Fetch API
+        async function deleteProduct(id) {
+            if (!confirm('Bạn có chắc muốn xóa sản phẩm này?')) return;
+            try {
+                const res = await fetch(`/api/products/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    fetchProducts(currentPage);
+                }
+            } catch (err) {
+                console.error('Lỗi xóa sản phẩm:', err);
+            }
+        }
+        function resetFilters() {
+            document.getElementById('filterCategory').value = '';
+            document.getElementById('filterSort').value = '';
+            document.getElementById('filterMaxPrice').value = '';
+            fetchProducts(1);
+        }
     </script>
 </body>
 

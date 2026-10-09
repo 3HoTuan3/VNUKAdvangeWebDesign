@@ -1,11 +1,11 @@
 const Product = require('../models/Product');
 const Category = require('../models/Category');
 
-// Danh sách sản phẩm có lọc, phân trang, sắp xếp
-exports.index = async (req, res) => {
+// 1. Lấy danh sách kèm Lọc, Phân trang, Sắp xếp
+exports.getProducts = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = 10;
+        const limit = parseInt(req.query.limit) || 12;
         const skip = (page - 1) * limit;
         const { category, sort, maxPrice } = req.query;
         const filter = {};
@@ -14,69 +14,71 @@ exports.index = async (req, res) => {
         const sortOption = {};
         if (sort === 'asc') sortOption.price = 1;
         else if (sort === 'desc') sortOption.price = -1;
-        const [products, categories, total] = await Promise.all([
+        const [products, total] = await Promise.all([
             Product.find(filter)
                 .populate('categoryId')
                 .sort(sortOption)
                 .skip(skip)
                 .limit(limit),
-            Category.find(),
             Product.countDocuments(filter)
         ]);
-        const totalPages = Math.ceil(total / limit);
-        res.render('products/index', {
-            title: 'Danh sách sản phẩm nâng cao',
+        res.json({
             products,
-            categories,
             currentPage: page,
-            totalPages
+            totalPages: Math.ceil(total / limit),
+            total
         });
     } catch (err) {
-        res.status(500).send(err.message);
+        res.status(500).json({ message: err.message });
     }
 };
 
-// Form thêm
-exports.newForm = async (req, res) => {
-    const categories = await Category.find();
-    res.render('products/new', { title: 'Thêm sản phẩm', categories });
-};
-
-// Tạo mới
-exports.create = async (req, res) => {
-    await Product.create(req.body);
-    res.redirect('/products');
-};
-
-// Chi tiết
-exports.detail = async (req, res) => {
-    const product = await Product.findById(req.params.id).populate('categoryId');
-    res.render('products/detail', { title: 'Chi tiết sản phẩm', product });
-};
-
-// Form sửa
-exports.editForm = async (req, res) => {
-    const product = await Product.findById(req.params.id);
-    const categories = await Category.find();
-    res.render('products/edit', { title: 'Sửa sản phẩm', product, categories });
-};
-
-// Cập nhật
-exports.update = async (req, res) => {
-    await Product.findByIdAndUpdate(req.params.id, req.body);
-    res.redirect('/products');
-};
-
-// Xóa
-exports.delete = async (req, res) => {
-    await Product.findByIdAndDelete(req.params.id);
-    res.redirect('/products');
-};
-
-exports.getApiProducts = async (req, res) => {
+// 2. Lấy danh mục
+exports.getCategories = async (req, res) => {
     try {
-        const products = await Product.find().populate('categoryId');
-        res.json(products);
+        const categories = await Category.find();
+        res.json(categories);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// 3. Lấy chi tiết
+exports.getProductById = async (req, res) => {
+    try {
+        const product = await Product.findById(req.params.id).populate('categoryId');
+        if (!product) return res.status(404).json({ message: 'Không tìm thấy' });
+        res.json(product);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// 4. Thêm sản phẩm
+exports.createProduct = async (req, res) => {
+    try {
+        const newProduct = await Product.create(req.body);
+        res.status(201).json(newProduct);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// 5. Cập nhật sản phẩm
+exports.updateProduct = async (req, res) => {
+    try {
+        const updated = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        res.json(updated);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+// 6. Xóa sản phẩm
+exports.deleteProduct = async (req, res) => {
+    try {
+        await Product.findByIdAndDelete(req.params.id);
+        res.json({ message: 'Đã xóa sản phẩm thành công' });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
